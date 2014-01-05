@@ -1,0 +1,31 @@
+---
+- name: define aptproxy
+  copy:
+    dest: /etc/apt/apt.conf.d/02proxy
+    content: 'Acquire::http { Proxy "http://{{ apt_proxy_server }}:3142"; };'
+    mode: 0644
+    owner: root
+    group: root
+  when: apt_proxy_server is defined
+  tags: [apt_proxy]
+
+# exclude from apt proxy sourceforge 
+# because https://alioth.debian.org/tracker/index.php?func=detail&aid=314548&group_id=100566&atid=413111
+- name: define aptproxy exception
+  copy:
+    dest: /etc/apt/apt.conf.d/99proxy
+    content: |
+      Acquire::http::Proxy {
+        switch.dl.sourceforge.net DIRECT;
+        downloads.sourceforge.net DIRECT;
+      };
+    mode: 0644
+    owner: root
+    group: root
+  when: apt_proxy_server is defined
+  tags: [apt_proxy]
+
+- name: undefine aptproxy
+  file: dest="/etc/apt/apt.conf.d/02proxy" state=absent
+  when: apt_proxy_server is not defined
+  tags: [apt_proxy]

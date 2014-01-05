@@ -1,0 +1,9 @@
+# upgrade instaled packages to last version
+# use in meta/main.yml
+# dependencies:
+#   - { role: aptupgrade }
+---
+
+- name: apt upgrade
+  apt: upgrade=safe
+  tags: [apt_upgrade]

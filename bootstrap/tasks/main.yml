@@ -1,0 +1,10 @@
+# install base packages for apt_* ansible modules
+# use in meta/main.yml
+# dependencies:
+#   - { role: apt/aptbootstrap }
+---
+- name: install apt bootstrap packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - python-pycurl
+    - aptitude
