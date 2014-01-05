@@ -29,3 +29,8 @@
   file: dest="/etc/apt/apt.conf.d/02proxy" state=absent
   when: apt_proxy_server is not defined
   tags: [apt_proxy]
+
+- name: undefine aptproxy exception
+  file: dest="/etc/apt/apt.conf.d/99proxy" state=absent
+  when: apt_proxy_server is not defined
+  tags: [apt_proxy]
